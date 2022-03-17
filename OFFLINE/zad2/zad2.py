@@ -67,7 +67,6 @@ def depth(L):
                 G[j][1] += 1
                 j -= 1   
 
-
     result = G[S][1]
     #S += 1
     # while S < g:
