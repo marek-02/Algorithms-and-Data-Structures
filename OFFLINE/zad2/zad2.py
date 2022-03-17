@@ -48,6 +48,7 @@ def depth(L):
     maxGora = L[0][1]
     G.append([maxGora, 0])
     g = 1
+    S = 0
 
     for i in range(1, l):
         if L[i][1] > maxGora:
@@ -57,14 +58,21 @@ def depth(L):
         else:
             G[g - 1][1] += 1
             j = g - 2
-            while j >= 0 and G[j][1] > G[j + 1][1] and L[i][1] <= G[j][0]:
+            while j >= S:
+                if G[j][1] < G[j + 1][1]:
+                    S = j + 1
+                    break
+                if L[i][1] > G[j][0]:
+                    break
                 G[j][1] += 1
-                j -= 1
-        
-    result = 0
+                j -= 1   
 
-    for i in range(g):
-        if G[i][1] > result: result = G[i][1]
+
+    result = G[S][1]
+    #S += 1
+    # while S < g:
+    #     if G[S][1] > result: result = G[S][1]
+    #     S += 1
 
 
     return result
