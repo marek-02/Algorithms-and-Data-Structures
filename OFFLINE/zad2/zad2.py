@@ -1,3 +1,9 @@
+#Marek Żuwała   
+#Algorytm na początku przechodzi przez daną tablicę i dzieli elementy
+#na te, które mogą zawierać najwięcej przedziałów (nie zawierają się w żadnym innym) - Kandydaci
+#oraz te, które zawierają się w jakimś innym - Leszcze
+#potem przechodzi leszczami po kandydatach i oblicza, który przedział zawiera najwięcej przedziałów 
+#złożoność pesymistycznie O(n^2), ale średnia n logn (?), działa sporo szybciej niż algorytm z sortem, który wcześniej zaimplementowałem
 from zad2testy import runtests
 
 class Node():
