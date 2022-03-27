@@ -1,55 +1,39 @@
+from re import T
 from zad3testy import runtests
 
-class Node():
-    def __init__(self, v):
-        self.next = None
-        self.v = v
-
-
-class Kubelek():
-    def __init__(self):
-        self.first = None
-
-    def dodaj(self, w):
-        x = Node(w)
-        if self.first is None:
-            self.first = x
-            return
-        if w < self.first.v:
-            x.next = self.first
-            self.first = x
-            return
-
-        n_prev = self.first
-        n = self.first
-        while n is not None and n.v < w:
-            n_prev = n
-            n = n.next
-        x.next = n
-        n_prev.next = x
-
+def insert_sort(A):
+    n = len(A)
+    for i in range(1, n):
+        x = A[i]
+        j = i - 1
+        while j >= 0 and A[j] > x:
+            A[j + 1] = A[j]
+            j -= 1
+        A[j + 1] = x
+    return A
 
 def bucket_sort(A):
     n = len(A)
-    min = max = A[0]
-    for i in range(n):
-        if A[i] < min: min = A[i]
-        elif A[i] > max: max = A[i]
+    max_el = max(A)
+    min_el = min(A)
+    przedzial = (max_el - min_el) / (n // 2)
 
-    przedzial = (max - min) / n
-
-    T = [Kubelek() for i in range(n + 1)]
+    T = [[] for i in range((n // 2) + 1)]
 
     for i in range(n):
-        x = int(((A[i] - min) / przedzial))
-        T[x].dodaj(A[i])
+        x = int((A[i] - min_el) / przedzial)
+        T[x].append(A[i])
     
-    j = 0
-    for i in range(n):
-        while T[j].first is None: j += 1
-        x = T[j].first.v
-        T[j].first = T[j].first.next
-        A[i] = x
+    for t in T:
+        if len(t) != 0: insert_sort(t)
+
+    k = 0
+    for t in T:
+        if t:
+            for i in t:
+                A[k] = i
+                k += 1
+
     return A
 
 
@@ -67,7 +51,7 @@ def partition(A, p, r):
     pivot = A[r]
     i = p - 1
     for j in range(p, r):
-        if A[j][0] <= pivot[0]:
+        if A[j] <= pivot:
             i += 1
             tmp = A[i]
             A[i] = A[j]
@@ -79,13 +63,10 @@ def partition(A, p, r):
     return i 
 
 def bin_search(A, l, p, x):
-    # i = 0
-    # while not (A[i][0] <= x and A[i][1] >= x): 
-    #     i += 1
-    # return i
     mid = (l + p) // 2
-    while not (A[mid][0] <= x and A[mid][1] >= x): 
-        if A[mid][0] > x: 
+
+    while not (A[mid] <= x and A[mid + 1] >= x): 
+        if A[mid] > x: 
             p = mid - 1
             mid = (l + p) // 2
         else: #if A[mid][1] < x
@@ -99,65 +80,29 @@ def SortTab(T, P):
     n = len(T)
     k = len(P)
 
-    # for i in range(k):
-    #     if P[i][2] == 0:
-    #         tmp = P[i] #niepotrzebne
-    #         P[i] = P[g - 1]
-    #         P[g - 1] = tmp #niepotrzebne
-    #         g -= 1
-
-
-    q_sort(P, 0, k - 1)
-
-    # print("Przed zmianami: ")
-    # for i in range(k):
-    #     print(P[i], end=" ")
-
-    # print()
+    P2 = [P[i][0] for i in range(k)]
+    for i in range(k): P2.append(P[i][1])
+    k *= 2
     
-    last = P[0][1]
-    P2 = [ [P[0][0], P[0][1]] ]
-    for i in range(1, k):
-        if last < P[i][1]: 
-            x = max(last, P[i][0])
-            P2.append([x, P[i][1]])
-            last = P[i][1]
-    k = len(P2)
-
-    # print("Po zmianach: ")
-    # for i in range(k):
-    #     print(P2[i], end=" ")
-            
-    # return T    
-
+    q_sort(P2, 0, k - 1)
     
-    print("1")
     k_wst = [[] for i in range(k)]
-
     
-    print("2")
+
     for i in range(n):
         indeks = bin_search(P2, 0, k - 1, T[i])
         k_wst[indeks].append(T[i])
-        #k_wst[i % k].append(T[i])
 
-    print("3")
-    for i in range(k):
-        if len(k_wst[i]) > 1: bucket_sort(k_wst[i])
 
-    print("\nK: ", k, "\n")
-    #print("4")
-    j = 0
+    for kub in k_wst:
+        if len(kub) > 1: bucket_sort(kub)
+
     k = 0
-    for i in range(n):
-        while len(k_wst[j]) - k == 0: 
-            j += 1
-            k = 0
-        
-        x = k_wst[j][k]
-        k += 1
-        T[i] = x
-
+    for kub in k_wst:
+        if kub:
+            for i in kub:
+                T[k] = i
+                k += 1
 
     return T
 
