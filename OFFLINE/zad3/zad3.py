@@ -1,4 +1,3 @@
-from re import T
 from zad3testy import runtests
 
 def insert_sort(A):
@@ -16,9 +15,9 @@ def bucket_sort(A):
     n = len(A)
     max_el = max(A)
     min_el = min(A)
-    przedzial = (max_el - min_el) / (n // 2)
+    przedzial = (max_el - min_el) / (n // 6)
 
-    T = [[] for i in range((n // 2) + 1)]
+    T = [[] for i in range((n // 6) + 1)]
 
     for i in range(n):
         x = int((A[i] - min_el) / przedzial)
@@ -78,8 +77,10 @@ def bin_search(A, l, p, x):
 
 def SortTab(T, P):
     n = len(T)
+    if n < 6: insert_sort(T)
+    else: bucket_sort(T)
+    return T #to szybciej działało, na dole teoretycznie lepsza(?) złożoność
     k = len(P)
-
     P2 = [P[i][0] for i in range(k)]
     for i in range(k): P2.append(P[i][1])
     k *= 2
@@ -95,7 +96,8 @@ def SortTab(T, P):
 
 
     for kub in k_wst:
-        if len(kub) > 1: bucket_sort(kub)
+        if len(kub) > 1 and len(kub) < 8: insert_sort(kub)
+        elif len(kub) > 1: bucket_sort(kub)
 
     k = 0
     for kub in k_wst:
