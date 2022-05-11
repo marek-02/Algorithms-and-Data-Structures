@@ -1,4 +1,3 @@
-from turtle import st
 from zad4testy import runtests
 
 def q_sort(A, p, r, pocz_ind):
