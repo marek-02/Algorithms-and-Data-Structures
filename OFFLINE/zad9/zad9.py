@@ -17,7 +17,7 @@ def BFS(C, F, s, t):
     while not Q.empty():
         u = Q.get()
         for v in range(n):
-            if(C[u][v] > F[u][v]) and v not in sciezka:
+            if(C[u][v] > F[u][v]):
                 if parent[v] == -1: parent[v] = u
                 if v == t: 
                     while v != -1:
