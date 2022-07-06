@@ -3,12 +3,20 @@
 #O(VE)
 
 from math import inf
-from turtle import goto
 
 def relax(u, v, d, parent):
     if d[u[0]] > d[v] + u[1]:
         d[u[0]] = d[v] + u[1]
         parent[u[0]] = v
+#wersja macierzowa, jak nie ma krawędzi to None
+#O(VE)
+
+# from math import inf
+
+# def relax(u, v, d, parent, uvD):
+#     if d[u] > d[v] + uvD:
+#         d[u] = d[v] + uvD
+#         parent[u] = v
 
 
 
@@ -43,3 +51,19 @@ G = [
     [(7, 7), (6, 4), (5, 1)],
 ]
 BellmanFord(G, 0)
+#     E = []
+
+#     for i in range(G):
+#         for j in range(G):
+#             if G[i][j] != None and (j, i, G[i][j]) not in E:
+#                 E.append(i, j, G[i][j])
+    
+#     for i in range(n):
+#         for j in range(len(E)):
+#             relax(E[j][0], E[j][1], d, parent, E[j][2])
+
+# #sprawdzenie czy nie ma ujemnego cyklu
+#     for e in E:
+#         if d[e[1]] > d[e[0]] + G[e[0]][e[1]]:
+#             return False
+#     return True
