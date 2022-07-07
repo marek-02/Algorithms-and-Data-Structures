@@ -17,7 +17,8 @@ def Prime(G, s):
         for u in G[v]:
             if not visited[u[0]] and d[u[0]] > u[1]:
                 parent[u[0]] = v
-                pq.put(d[u[0]], u[1])
+                d[u[0]] = u[1]
+                pq.put(d[u[0]], u[0])
     MST = []
     for i in range(n):
         if parent[i] is not None:
